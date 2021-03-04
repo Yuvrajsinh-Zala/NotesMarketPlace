@@ -180,7 +180,14 @@ namespace NotesMarketPlace.Controllers
 
         public ActionResult ManageType()
         {
-            return View();
+            List<NoteType> NoteTypesList = _Context.NoteTypes.ToList(); //new List<NoteType>();
+            List<User> User = _Context.Users.ToList(); //new List<NoteType>();
+
+            var multiple2 = from c in NoteTypesList
+                           join t1 in User on c.CreatedBy equals t1.ID
+                           select new DataRetrival { NoteType = c, User = t1 };
+
+            return View(multiple2);
         }
 
         public ActionResult AddType()
