@@ -40,7 +40,14 @@ namespace NotesMarketPlace.Controllers
         }
         public ActionResult ManageCategory()
         {
-            return View();
+            List<NoteCategory> NoteCategoriesList = _Context.NoteCategories.ToList(); //new List<NoteCategory>();
+            List<User> User = _Context.Users.ToList(); //new List<NoteCategory>();
+
+            var multiple = from c in NoteCategoriesList
+                           join t1 in User on c.CreatedBy equals t1.ID
+                           select new DataRetrival { NoteCategory = c, User = t1 };
+
+            return View(multiple);
         }
                 
         public ActionResult AddCategory()
@@ -105,14 +112,7 @@ namespace NotesMarketPlace.Controllers
 
         public ActionResult ManageCountry()
         {
-            List<NoteCategory> NoteCategoriesList = _Context.NoteCategories.ToList(); //new List<NoteCategory>();
-            List<User> User = _Context.Users.ToList(); //new List<NoteCategory>();
-
-            var multiple = from c in NoteCategoriesList
-                           join t1 in User on c.CreatedBy equals t1.ID
-                           select new DataRetrival { NoteCategory = c, User = t1 };
-
-            return View(multiple);
+            return View();
         }
 
         public ActionResult AddCountry()
