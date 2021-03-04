@@ -1,4 +1,5 @@
 ﻿using NotesMarketPlace.Database;
+using NotesMarketPlace.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -13,12 +14,60 @@ namespace NotesMarketPlace.Controllers
 {
     public class LoginController : Controller
     {
+
+        private NotesMarketPlaceEntities _Context;
         // GET: Login
         public ActionResult Login()
         {
             return View();
         }
 
+        public LoginController()
+            {
+                _Context = new NotesMarketPlaceEntities();
+            }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(login model)
+        {
+            
+            bool isvalid = _Context.Users.Any(m => m.EmailID == model.EmailID && m.Password == model.Password);
+
+            if (isvalid)
+            {
+                var result = _Context.Users.Where(m => m.EmailID == model.EmailID).FirstOrDefault();
+                if (result.RoleID == 101 || result.RoleID == 102)
+
+                    return RedirectToAction("Dashboard", "Admin");
+                else if (result.RoleID == 103)
+                    return RedirectToAction("Dashboard", "User");
+                else
+                    ViewBag.NotValidUser = "Something went wrong";
+            }
+            else
+            {
+                ViewBag.NotValidUser = "Incorrect Email or Password";
+
+                /*if (model.Password == result.Password)
+                {
+                  /*  if (User.Identity.IsAuthenticated)
+                    {
+                        string name = User.Identity.Name;
+                    }
+                    if()
+                    FormsAuthentication.SetAuthCookie(result.EmailID,true);
+                    return RedirectToAction("", "user");
+                }
+                else
+                {
+                    ViewBag.NotValidPassword = "Passowrd is Incorrect";
+                }*/
+            }
+            return View("Login");
+
+        }
+    
         public ActionResult ForgotPassword()
         {
             return View();
@@ -46,7 +95,6 @@ namespace NotesMarketPlace.Controllers
                     {
 
                         User obj = new User();
-
                
                         obj.FirstName = model.FirstName;
                         obj.LastName = model.LastName;
@@ -61,11 +109,10 @@ namespace NotesMarketPlace.Controllers
                         obj.CreatedDate = DateTime.Now;
                         obj.CreatedBy = null;
                         obj.RoleID = 103;
-                        context.Users.Add(obj);
 
                         if (ModelState.IsValid)
                         {
-                            context.Users.Add(obj);
+                            dbobj.Users.Add(obj);
                             try
                             {
                                 // Your code...
@@ -94,7 +141,7 @@ namespace NotesMarketPlace.Controllers
 
                         }
 
-                        return RedirectToAction("home", "home");
+                        return RedirectToAction("Home", "Home");
 
                     }
 
@@ -117,7 +164,7 @@ namespace NotesMarketPlace.Controllers
             {
                 ViewBag.NotValidEmail = "Email is not valid";
             }
-            return View("FAQ","User");
+            return View("Signup");
 
         }
         public static bool IsValidPassword(string pswd, string repswd)

@@ -48,8 +48,21 @@
                                     @Html.LabelFor(model => model.EmailID)
 
                                     <!--<input type="text" class="form-control" id="email" placeholder="Enter Email">-->
-                                    @Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @class = "form-control", @type="email", id = "email", placeholder = "Enter your email" } })
+                                    @Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @class = "form-control", id = "email", placeholder = "Enter your email" } })
                                     @Html.ValidationMessageFor(model => model.EmailID, "", new { @class = "text-danger" })
+
+                                    <div class="col-md-12">
+                                        <div class="form-group error">
+
+                                            @if (@ViewBag.NotValidEmail != null)
+                                            {
+
+                                                <label style="color:#A94442"> @ViewBag.NotValidEmail</label>
+                                            }
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
                             </div>
@@ -66,6 +79,19 @@
                                     <!--<input type="password" class="form-control" id="password" placeholder="Enter your Password">-->
                                     @Html.EditorFor(model => model.RePassword, new { htmlAttributes = new { @class = "form-control", @type = "Password", id = "password", placeholder = "Enter your Password" } })
                                     @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger" })
+
+                                    <div class="col-md-12">
+                                        <div class="form-group error">
+
+                                            @if (@ViewBag.NotValidPassword != null)
+                                            {
+
+                                                <label style="color:#A94442"> @ViewBag.NotValidPassword</label>
+                                            }
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
                             </div>
