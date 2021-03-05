@@ -112,7 +112,14 @@ namespace NotesMarketPlace.Controllers
 
         public ActionResult ManageCountry()
         {
-            return View();
+            List<Country> CountriesList = _Context.Countries.ToList(); //new List<Country>();
+            List<User> User = _Context.Users.ToList(); //new List<Country>();
+
+            var multiple2 = from c in CountriesList
+                            join t1 in User on c.CreatedBy equals t1.ID
+                            select new DataRetrival { Country = c, User = t1 };
+
+            return View(multiple2);
         }
 
         public ActionResult AddCountry()
