@@ -1,9 +1,9 @@
 ﻿@model NotesMarketPlace.Database.SellerNote
-
 @{
     ViewBag.Title = "AddNotes";
 }
 <!-- Header -->
+
 <header>
     <nav class="navbar navbar-fixed-top">
         <div class="container-fluid">
@@ -68,7 +68,7 @@
 <!-- Header Ends -->
 <!--      Add Notes Section -->
 <section id="add-note">
-    @using (Html.BeginForm("addnote", "User", FormMethod.Post, new
+    @using (Html.BeginForm("AddNotes", "User", FormMethod.Post, new
     {
         enctype = "multipart/form-data"
     }))

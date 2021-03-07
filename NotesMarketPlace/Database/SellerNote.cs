@@ -11,50 +11,60 @@ namespace NotesMarketPlace.Database
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class User
+    using System.Web;
+
+    public partial class SellerNote
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public SellerNote()
         {
             this.Downloads = new HashSet<Download>();
-            this.Downloads1 = new HashSet<Download>();
-            this.SellerNotes = new HashSet<SellerNote>();
-            this.SellerNotes1 = new HashSet<SellerNote>();
+            this.SellerNotesAttachements = new HashSet<SellerNotesAttachement>();
             this.SellerNotesReportedIssues = new HashSet<SellerNotesReportedIssue>();
             this.SellerNotesReviews = new HashSet<SellerNotesReview>();
-            this.UserProfiles = new HashSet<UserProfile>();
         }
     
         public int ID { get; set; }
-        public int RoleID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailID { get; set; }
-        public string Password { get; set; }
-        public string RePassword { get; set; }
-
-        public bool IsEmailVerified { get; set; }
+        public int SellerID { get; set; }
+        public int Status { get; set; }
+        public Nullable<int> ActionBy { get; set; }
+        public string AdminRemarks { get; set; }
+        public Nullable<System.DateTime> PublishedDate { get; set; }
+        public string Title { get; set; }
+        public int Category { get; set; }
+        public string DisplayPicture { get; set; }
+        public Nullable<int> NoteType { get; set; }
+        public Nullable<int> NumberofPages { get; set; }
+        public string Description { get; set; }
+        public string UniversityName { get; set; }
+        public Nullable<int> Country { get; set; }
+        public string Course { get; set; }
+        public string CourseCode { get; set; }
+        public string Professor { get; set; }
+        public bool IsPaid { get; set; }
+        public Nullable<decimal> SellingPrice { get; set; }
+        public string NotesPreview { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> CreatedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public Nullable<System.DateTime> ModificationDate { get; set; }
+        public Nullable<int> ModificationBy { get; set; }
         public bool IsActive { get; set; }
-    
+        public HttpPostedFileBase uploadNote { get; set; }
+        public HttpPostedFileBase displayPic { get; set; }
+        public HttpPostedFileBase notePreview { get; set; }
+        public virtual Country Country1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Download> Downloads { get; set; }
+        public virtual NoteCategory NoteCategory { get; set; }
+        public virtual NoteType NoteType1 { get; set; }
+        public virtual ReferenceData ReferenceData { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Download> Downloads1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SellerNote> SellerNotes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SellerNote> SellerNotes1 { get; set; }
+        public virtual ICollection<SellerNotesAttachement> SellerNotesAttachements { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SellerNotesReportedIssue> SellerNotesReportedIssues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SellerNotesReview> SellerNotesReviews { get; set; }
-        public virtual UserRole UserRole { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserProfile> UserProfiles { get; set; }
     }
 }
