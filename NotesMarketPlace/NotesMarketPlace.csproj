@@ -193,6 +193,7 @@
     <Compile Include="Models\login.cs" />
     <Compile Include="Models\Membership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\admin-style.css" />
@@ -298,6 +299,7 @@
     <Content Include="Views\Admin\AddCategory.cshtml" />
     <Content Include="Views\Admin\AddAdministrator.cshtml" />
     <Content Include="Views\Admin\AddType.cshtml" />
+    <Content Include="Views\User\AddNotes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

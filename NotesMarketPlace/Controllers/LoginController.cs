@@ -31,17 +31,22 @@ namespace NotesMarketPlace.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(login model)
         {
-            
             bool isvalid = _Context.Users.Any(m => m.EmailID == model.EmailID && m.Password == model.Password);
 
             if (isvalid)
             {
                 var result = _Context.Users.Where(m => m.EmailID == model.EmailID).FirstOrDefault();
                 if (result.RoleID == 101 || result.RoleID == 102)
-
+                {
+                    FormsAuthentication.SetAuthCookie(model.EmailID, false);
                     return RedirectToAction("Dashboard", "Admin");
+                }
+
                 else if (result.RoleID == 103)
+                {
+                    FormsAuthentication.SetAuthCookie(model.EmailID, false);
                     return RedirectToAction("Dashboard", "User");
+                }
                 else
                     ViewBag.NotValidUser = "Something went wrong";
             }

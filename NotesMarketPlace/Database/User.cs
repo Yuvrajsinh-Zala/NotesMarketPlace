@@ -34,7 +34,8 @@ namespace NotesMarketPlace.Database
         public string Password { get; set; }
 
         public string RePassword { get; set; }
-
+        public int PhoneNo { get; set; }
+        public int CountryCode { get; set; }
         public bool IsEmailVerified { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> CreatedBy { get; set; }

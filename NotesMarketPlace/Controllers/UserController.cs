@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace NotesMarketPlace.Controllers
 {
+    [Authorize(Roles = "Member")]
     public class UserController : Controller
     {
         // GET: User
@@ -14,6 +15,7 @@ namespace NotesMarketPlace.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult ContactUs()
         {
             return View();

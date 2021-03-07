@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace NotesMarketPlace.Controllers
 {
-    
+    [Authorize(Roles = "Admin, Super Admin")]
     public class AdminController : Controller
     {
         private NotesMarketPlaceEntities _Context;
@@ -37,7 +37,7 @@ namespace NotesMarketPlace.Controllers
         public ActionResult AddAdministrator()
         {
             return View();
-        }
+        }  
         public ActionResult ManageCategory()
         {
             List<NoteCategory> NoteCategoriesList = _Context.NoteCategories.ToList(); //new List<NoteCategory>();
