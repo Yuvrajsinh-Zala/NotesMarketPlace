@@ -1,0 +1,127 @@
+﻿@model NotesMarketPlace.Models.Membership
+
+
+@{
+    ViewBag.Title = "SignUp";
+}
+
+<!-- SignUp Section -->
+@using (Html.BeginForm())
+{
+    <section id="signup" class="signup-overlay">
+
+        <div class="signup-parent">
+            <div class="signup-child">
+                <img class="img-responsive" src="img/home/top-logo.png" alt="">
+                <div class="signup-details">
+                    <div class="text-center">
+                        <p>create an Account</p>
+                        <p>Enter your details to signup</p>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group dis">
+                                    <!--<p>First Name*</p>-->
+                                    @Html.LabelFor(model => model.FirstName)
+
+                                    <!-- <input type="text" class="form-control" id="fname" placeholder="Enter your first name">-->
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", id = "fname", placeholder = "Enter your first name" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group dis">
+                                    <!--<p>Last Name*</p>-->
+                                    @Html.LabelFor(model => model.LastName)
+
+                                    <!--<input type="text" class="form-control" id="email" placeholder="Enter your last name">-->
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", id = "lname", placeholder = "Enter your last name" } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group dis">
+                                    <!--<p>Email*</p>-->
+                                    @Html.LabelFor(model => model.EmailID)
+
+                                    <!--<input type="text" class="form-control" id="email" placeholder="Enter Email">-->
+                                    @Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @class = "form-control", id = "email", placeholder = "Enter your email" } })
+                                    @Html.ValidationMessageFor(model => model.EmailID, "", new { @class = "text-danger" })
+
+                                    <div class="col-md-12">
+                                        <div class="form-group error">
+
+                                            @if (@ViewBag.NotValidEmail != null)
+                                            {
+
+                                                <label style="color:#A94442"> @ViewBag.NotValidEmail</label>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group dis">
+                                    <!--<p>Password</p>-->
+                                    @Html.LabelFor(model => model.Password)
+                                    <!--<input type="password" class="form-control" id="password" placeholder="Enter your Password">-->
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "Password", id = "password", placeholder = "Enter your Password" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                                    <!--<p>Password</p>-->
+                                    @Html.LabelFor(model => model.RePassword)
+                                    <!--<input type="password" class="form-control" id="password" placeholder="Enter your Password">-->
+                                    @Html.EditorFor(model => model.RePassword, new { htmlAttributes = new { @class = "form-control", @type = "Password", id = "password", placeholder = "Enter your Password" } })
+                                    @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger" })
+
+                                    <div class="col-md-12">
+                                        <div class="form-group error">
+
+                                            @if (@ViewBag.NotValidPassword != null)
+                                            {
+
+                                                <label style="color:#A94442"> @ViewBag.NotValidPassword</label>
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group dis">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group dis">
+
+                                    <Button class="form-control">
+                                        signup
+                                    </Button>
+                                </div>
+                            </div>
+                            <div class="col-md-12 no-account">
+                                <p>Allready have an account? <span>@Html.ActionLink("Login", "Login", "Login")</span></p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+}
+    <!-- SignUp Section Ends -->

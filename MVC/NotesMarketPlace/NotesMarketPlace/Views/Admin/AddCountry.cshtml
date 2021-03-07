@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "AddCountry";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model NotesMarketPlace.Database.Country
+
+<!-- Add Country section -->
+@using (Html.BeginForm())
+
+{
+    @Html.AntiForgeryToken()
+
+
+    <section class="add-country">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="page-heading">Add Country</p>
+
+                </div>
+                <div class="col-md-6 inside-col">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <p>Country Name*</p>
+                            <!--<input type="text" class="form-control" id="name" placeholder="Enter Country name">-->
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id = "name", placeholder = "Enter country name" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <p>Country Code*</p>
+                            <!--<input type="text" class="form-control" id="name" placeholder="Enter Country code">-->
+                            @Html.EditorFor(model => model.CountryCode, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter country code" } })
+                            @Html.ValidationMessageFor(model => model.CountryCode, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <!--<div class="col-md-12">
+                        <a class="btn btn-general btn-work  smooth-scroll" href="#about" title="Sell Book" role="button">SUBMIt</a>
+                    </div>-->
+
+                    <div class="col-md-12">
+                        <button class="btn btn-work">Submit</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+}
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <!-- Add Country ends -->
