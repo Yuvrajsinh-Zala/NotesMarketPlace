@@ -1,8 +1,11 @@
-﻿using NotesMarketPlace.Database;
+﻿using NoteMarketPlace.Models;
+using NotesMarketPlace.Database;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -19,9 +22,44 @@ namespace NotesMarketPlace.Controllers
             return View();
         }
 
-        [AllowAnonymous]
-        public ActionResult ContactUs()
+        public ActionResult ContactUS()
         {
+            ViewBag.Message = "Contact Us page.";
+            ModelState.Clear();
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ContactUs(ContactUs model)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+
+                using (MailMessage mm = new MailMessage("email@example.com", model.Email))
+                {
+                    mm.Subject = model.Subject;
+                    string body = "Hello " + model.Name + ",";
+                    // body += "<br /><br />Please click the following link to activate your account";
+                    //body += "<br /><a href = '" + string.Format("{0}://{1}/Home/Activation/{2}", Request.Url.Scheme, Request.Url.Authority, activationCode) + "'>Click here to activate your account.</a>";
+                    //body += "<br /><br />Thanks";
+
+                    mm.Body = model.Message;
+                    mm.IsBodyHtml = true;
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.EnableSsl = true;
+                    NetworkCredential NetworkCred = new NetworkCredential("email@example.com", "**********");
+                    smtp.UseDefaultCredentials = true;
+                    smtp.Credentials = NetworkCred;
+                    smtp.Port = 587;
+                    smtp.Send(mm);
+                }
+
+            }
             return View();
         }
 
