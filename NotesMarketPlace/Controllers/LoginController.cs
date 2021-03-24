@@ -255,9 +255,9 @@ namespace NotesMarketPlace.Controllers
         {
             var verifyUrl = "/Login/VerifyAccount/" + activationCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
-            var fromEmail = new MailAddress("NotesMarketPlaces@gmail.com", "NotesMarketPlaces");
+            var fromEmail = new MailAddress("email@example.com", "NotesMarketPlaces");
             var toEmail = new MailAddress(email);
-            var fromemailPassword = "notesmarketplaces123";
+            var fromemailPassword = "**********";
             string subject = "Note Marketplace - Email Verification";
             string body ="<br>Hello <member name>,<br> <br>" + 
                 "Thank you for signing up with us. Please click on below link to verify your email address and to do login<br><br>" +
