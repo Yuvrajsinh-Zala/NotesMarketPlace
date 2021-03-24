@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -115,6 +117,7 @@ namespace NotesMarketPlace.Controllers
                         obj.CreatedBy = null;
                         obj.RoleID = 103;
 
+                        obj.ActivationCode = Guid.NewGuid();
                         if (ModelState.IsValid)
                         {
                             dbobj.Users.Add(obj);
@@ -125,6 +128,7 @@ namespace NotesMarketPlace.Controllers
 
                                 dbobj.SaveChanges();
                                 ModelState.Clear();
+                                sendEmailVerificationLink(model.EmailID, obj.ActivationCode.ToString());
 
                                 FormsAuthentication.SetAuthCookie(model.EmailID, true);
                                 return RedirectToAction("MyProfile", "User");
@@ -222,6 +226,54 @@ namespace NotesMarketPlace.Controllers
             {
                 return false;
             }
+        }
+        [HttpGet]
+        public ActionResult VerifyAccount(string id)
+        {
+            bool Status = false;
+            using (NotesMarketPlaceEntities dc = new NotesMarketPlaceEntities())
+            {
+                dc.Configuration.ValidateOnSaveEnabled = false;  
+
+                var v = dc.Users.Where(a => a.ActivationCode == new Guid(id)).FirstOrDefault();
+                if (v != null)
+                {
+                    v.IsEmailVerified = true;
+                    dc.SaveChanges();
+                    Status = true;
+                }
+                else
+                {
+                    ViewBag.Message = "Invalid Request";
+                }
+            }
+            ViewBag.Status = Status;
+            return View();
+        }
+
+        public void sendEmailVerificationLink(String email, string activationCode)
+        {
+            var verifyUrl = "/Login/VerifyAccount/" + activationCode;
+            var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
+            var fromEmail = new MailAddress("NotesMarketPlaces@gmail.com", "NotesMarketPlaces");
+            var toEmail = new MailAddress(email);
+            var fromemailPassword = "notesmarketplaces123";
+            string subject = "Note Marketplace - Email Verification";
+            string body ="<br>Hello <member name>,<br> <br>" + 
+                "Thank you for signing up with us. Please click on below link to verify your email address and to do login<br><br>" +
+                "<a href='" + link + "'>" + link + "</a> <br><br>" +
+                "Regards,<br> Notes MarketPlace ";
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                EnableSsl = true,
+                Credentials = new NetworkCredential(fromEmail.Address, fromemailPassword)
+            };
+            using (var message = new MailMessage(fromEmail, toEmail) { Subject = subject, Body = body, IsBodyHtml = true })
+                smtp.Send(message);
         }
     }
 }

@@ -9,9 +9,7 @@ namespace NotesMarketPlace.Models
     {
         public Database.NoteCategory NoteCategory { get; set; }
         public Database.User User { get; set; }
-
         public Database.NoteType NoteType { get; set; }
-
         public Database.Country Country { get; set; }
     }
 }

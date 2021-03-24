@@ -11,7 +11,8 @@ namespace NotesMarketPlace.Database
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,9 +29,13 @@ namespace NotesMarketPlace.Database
     
         public int ID { get; set; }
         public int RoleID { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
         public string EmailID { get; set; }
+        [Required]
         public string Password { get; set; }
         public string RePassword { get; set; }
 
@@ -40,6 +45,7 @@ namespace NotesMarketPlace.Database
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+        public Nullable<System.Guid> ActivationCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Download> Downloads { get; set; }

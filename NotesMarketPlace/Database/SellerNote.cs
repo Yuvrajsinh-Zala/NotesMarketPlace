@@ -49,9 +49,11 @@ namespace NotesMarketPlace.Database
         public Nullable<System.DateTime> ModificationDate { get; set; }
         public Nullable<int> ModificationBy { get; set; }
         public bool IsActive { get; set; }
+
         public HttpPostedFileBase uploadNote { get; set; }
         public HttpPostedFileBase displayPic { get; set; }
         public HttpPostedFileBase notePreview { get; set; }
+
         public virtual Country Country1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Download> Downloads { get; set; }
