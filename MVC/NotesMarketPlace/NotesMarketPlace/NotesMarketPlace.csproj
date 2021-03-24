@@ -301,6 +301,7 @@
     <Content Include="Views\Admin\AddAdministrator.cshtml" />
     <Content Include="Views\Admin\AddType.cshtml" />
     <Content Include="Views\User\AddNotes.cshtml" />
+    <Content Include="Views\Login\VerifyAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Archive\" />
