@@ -94,7 +94,7 @@
                 <div class="row">
                     @foreach (var item in Model)
                     {
-                        <a href="@Url.Action("showBook","User", new { id = item.SellerNote.ID })">
+                        <a href="@Url.Action("NoteDetails","User", new { id = item.SellerNote.ID })">
                             <div class="col-md-4 col-sm-6">
                                 <div class="book">
                                     <img class="img-responsive" src="@Html.Raw(@item.SellerNote.DisplayPicture)" alt="cover-photo">
@@ -152,6 +152,7 @@
 </section>
 <!-- Search Notes Ends -->
 <!-- Book detais in deep-->
+<!--
 <section id="myNav" class="overlay">
 
 
@@ -320,5 +321,5 @@
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto molestiae ab, autem incidunt ut porro excepturi, rerum! Eaque ratione nihil sed exercitationem inventore amet, odio porro itaque, architecto, pariatur natus.
         </p>
     </div>
-</section>
+</section>-->
 <!-- Book detais in deep end-->

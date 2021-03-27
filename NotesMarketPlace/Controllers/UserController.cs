@@ -133,13 +133,144 @@ namespace NotesMarketPlace.Controllers
             SelectList CountryList = new SelectList(CountryName, "ID", "Name");
             ViewBag.Country = CountryList;
 
-
-
             return View();
 
+        }
+        public ActionResult NoteDeatils(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //tblSellerNote tblSeller = dbobj.tblSellerNotes.Find(id).;
+            var user_id = dbobj.Users.Where(m => m.EmailID == User.Identity.Name && m.RoleID != 103).FirstOrDefault();
+            if (user_id != null)
+                goto eligible;
+            var tblSeller = dbobj.SellerNotes.Where(m => m.ID == id && m.Status == 9).FirstOrDefault();
+            if (tblSeller == null)
+                return HttpNotFound();
+            eligible:
+            List<SellerNote> SellerNotes = dbobj.SellerNotes.ToList();
+            List<Country> Countries = dbobj.Countries.ToList();
+            List<NoteCategory> NoteCategories = dbobj.NoteCategories.ToList();
 
+            var multiple = from c in SellerNotes
+                           join t1 in Countries on c.Country equals t1.ID
+                           join t2 in NoteCategories on c.Category equals t2.ID
+                           where c.ID == id
+                           select new DataRetrival { SellerNote = c, Country = t1, NoteCategory = t2 };
+
+            return View(multiple);
+        }
+
+
+        public ActionResult FreeDownLoad(int? id)
+        {
+
+
+            var user_email = dbobj.Users.Where(m => m.EmailID.Equals(User.Identity.Name)).FirstOrDefault();
+
+            var tblSeller = dbobj.SellerNotes.Where(m => m.ID == id).FirstOrDefault();
+            var user_id = user_email.ID;
+
+            /* if (id == null)
+             {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             }
+             else*/
+            if (!tblSeller.IsPaid)
+            {
+                if (tblSeller == null || tblSeller.Status != 9)
+                    return HttpNotFound();
+
+                else if (tblSeller != null && tblSeller.Status == 9)
+                {
+
+                    string path = (from sa in dbobj.SellerNotesAttachements where sa.NoteID == tblSeller.ID select sa.FilePath).First().ToString();
+                    string category = (from c in dbobj.NoteCategories where c.ID == tblSeller.Category select c.Name).First().ToString();
+                    Download obj = new Download();
+                    obj.NoteID = tblSeller.ID;
+                    obj.Seller = tblSeller.SellerID;
+                    obj.Downloader = user_id;
+                    obj.IsSellerHasAllowedDownload = true;
+                    obj.AttachmentPath = path;
+                    obj.IsAttachmentDownloaded = true;
+                    obj.IsPaid = false;
+                    obj.PurchasedPrice = tblSeller.SellingPrice;
+                    obj.NoteTitle = tblSeller.Title;
+                    obj.NoteCategory = category;
+
+                    obj.CreatedDate = DateTime.Now;
+                    dbobj.Downloads.Add(obj);
+                    dbobj.SaveChanges();
+
+                    string filename = (from sa in dbobj.SellerNotesAttachements where sa.NoteID == id select sa.FileName).First().ToString();
+                    filename += ".pdf";
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+
+                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+
+                }
+            }
+            return HttpNotFound();
 
         }
+
+
+        public ActionResult AskforDownload(int id)
+        {
+            var user_email = dbobj.Users.Where(m => m.EmailID.Equals(User.Identity.Name)).FirstOrDefault();
+
+            var tblSeller = dbobj.SellerNotes.Where(m => m.ID == id).FirstOrDefault();
+            var user_id = user_email.ID;
+            var check_download = dbobj.Downloads.Where(m => m.NoteID == id && m.Downloader == user_id).FirstOrDefault();
+
+            if (check_download != null)
+                return Json(new { success = true, alertMsg = "you downloaded this book already." }, JsonRequestBehavior.AllowGet);
+
+
+
+            //tblSellerNote tblSeller = dbobj.tblSellerNotes.Find(id).;
+            if (tblSeller == null || tblSeller.Status != 9)
+                return HttpNotFound();
+
+            else if (tblSeller != null && tblSeller.Status == 9)
+            {
+
+
+                var seller = dbobj.Users.Where(m => m.ID == tblSeller.SellerID).FirstOrDefault();
+                string path = (from sa in dbobj.SellerNotesAttachements where sa.NoteID == tblSeller.ID select sa.FilePath).First().ToString();
+                string category = (from c in dbobj.NoteCategories where c.ID == tblSeller.Category select c.Name).First().ToString();
+                string seller_name = seller.FirstName;
+                seller_name += " " + seller.LastName;
+                string buyer_name = user_email.FirstName;
+                buyer_name += " " + user_email.LastName;
+                string buyer_email = seller.EmailID;
+
+                Download obj = new Download();
+                obj.NoteID = tblSeller.ID;
+                obj.Seller = tblSeller.SellerID;
+                obj.Downloader = user_id;
+                obj.IsSellerHasAllowedDownload = false;
+                obj.AttachmentPath = path;
+                obj.IsAttachmentDownloaded = false;
+                obj.IsPaid = true;
+                obj.PurchasedPrice = tblSeller.SellingPrice;
+                obj.NoteTitle = tblSeller.Title;
+                obj.NoteCategory = category;
+                obj.CreatedDate = DateTime.Now;
+
+                dbobj.Downloads.Add(obj);
+                dbobj.SaveChanges();
+                ViewBag.Msg = "Request Added";
+
+                return Json(new { success = true, responseText = seller_name }, JsonRequestBehavior.AllowGet);
+
+            }
+
+            return Json(new { success = false, responseText = "Not Completed." }, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
