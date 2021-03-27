@@ -85,16 +85,70 @@ namespace NotesMarketPlace.Controllers
             return View();
         }
 
-        public ActionResult MyRejectedNotes()
-        {
-            return View();
-        }
-
         public ActionResult MySoldNotes()
         {
-            return View();
+            ViewBag.Count = 1;
+
+            List<User> tblUsersList = dbobj.Users.ToList();
+            List<Download> tblDownloadList = dbobj.Downloads.ToList();
+            List<UserProfile> tblUserProfilesList = dbobj.UserProfiles.ToList();
+
+            int user_id = (from user in dbobj.Users where user.EmailID == User.Identity.Name select user.ID).FirstOrDefault();
+
+            var multiple = (from d in tblDownloadList
+                            join t1 in tblUsersList on d.Downloader equals t1.ID
+                            join t2 in tblUserProfilesList on d.Downloader equals t2.UserID
+                            where d.Seller == user_id && d.IsSellerHasAllowedDownload == true
+
+
+                            select new DataRetrival { Download = d, User = t1, UserProfile = t2 }).ToList() ;
+
+            return View(multiple);
+
         }
 
+
+        public ActionResult MyDownloadNotes(int id)
+        {
+
+            var user_id = dbobj.Users.Where(m => m.EmailID.Equals(User.Identity.Name)).FirstOrDefault();
+            var download = dbobj.Downloads.Where(m => m.NoteID.Equals(id) && m.Seller == user_id.ID).FirstOrDefault();
+
+            var attachments = dbobj.SellerNotesAttachements.Where(m => m.NoteID == id).FirstOrDefault();
+            var seller = dbobj.SellerNotes.Where(m => m.ID == id && m.SellerID == user_id.ID && m.Status == 10).FirstOrDefault();
+            if (seller != null || download != null)
+            {
+                string path = attachments.FilePath;
+                string filename = attachments.FileName + ".pdf";
+                byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+            }
+            else
+                return HttpNotFound();
+        }
+
+
+        public ActionResult MyRejectedNotes()
+        {
+  
+            List<User> tblUsersList = dbobj.Users.ToList();
+            List<SellerNote> tblSellerNotes = dbobj.SellerNotes.ToList();
+            List<NoteCategory> tblNoteCategories = dbobj.NoteCategories.ToList();
+
+            int user_id = (from user in dbobj.Users where user.EmailID == User.Identity.Name select user.ID).FirstOrDefault();
+            
+            ViewBag.Count = 1;
+            var multiple = (from d in tblSellerNotes
+                            join t1 in tblUsersList on d.SellerID equals t1.ID
+                            join t2 in tblNoteCategories on d.Category equals t2.ID
+                            where d.SellerID == user_id && d.Status == 10
+
+
+                            select new DataRetrival { SellerNote = d, User = t1, NoteCategory = t2 }).ToList();
+
+            return View(multiple);
+        }
 
         public ActionResult SearchNotes()
         {
