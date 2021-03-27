@@ -302,7 +302,7 @@
     <Content Include="Views\Admin\AddType.cshtml" />
     <Content Include="Views\User\AddNotes.cshtml" />
     <Content Include="Views\Login\VerifyAccount.cshtml" />
-    <Content Include="Views\User\NoteDeatils.cshtml" />
+    <Content Include="Views\User\NoteDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Archive\" />

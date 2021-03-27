@@ -75,11 +75,6 @@ namespace NotesMarketPlace.Controllers
             return View();
         }
 
-        public ActionResult MyDownloadNotes()
-        {
-            return View();
-        }
-
         public ActionResult MyProfile()
         {
             return View();
@@ -190,7 +185,8 @@ namespace NotesMarketPlace.Controllers
             return View();
 
         }
-        public ActionResult NoteDeatils(int? id)
+        
+        public ActionResult NoteDetails(int? id)
         {
             if (id == null)
             {
