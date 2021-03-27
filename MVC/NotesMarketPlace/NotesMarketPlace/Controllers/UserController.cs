@@ -163,7 +163,7 @@ namespace NotesMarketPlace.Controllers
             return View(multiple);
         }
 
-        public ActionResult NoteDeatils(int? id)
+        public ActionResult NoteDetails(int? id)
         {
             if (id == null)
             {
