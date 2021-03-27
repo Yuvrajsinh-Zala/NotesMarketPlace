@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<NotesMarketPlace.Models.DataRetrival>
+
 @{
     ViewBag.Title = "SearchNotes";
 }
@@ -85,210 +86,54 @@
             <div class="row">
                 <div class="col-md-12 s-title">
 
-                    <p> Total <span>18</span> notes</p>
+                    <p> Total <span>@ViewBag.Count</span> notes</p>
 
                 </div>
             </div>
             <div class="books">
                 <div class="row">
-                    <div class="col-md-4 col-sm-6 ">
-                        <div class="book" onclick="openNav()">
-
-                            <img class="img-responsive" src="../img/home/banner.jpg" alt="cover-photo">
-                            <div class="book-detail">
-                                <p id="book-name">Computer operating System-Final Exam book with Paper Solution</p>
-                                <div class="deep-discription">
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-university"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            University Name, Country
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-book"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            No. of Pages
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-calendar"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Date of Upload
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-flag"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Users report about book
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 ">
-                        <div class="book" onclick="openNav()">
-
-                            <img class="img-responsive" src="../img/home/banner.jpg" alt="cover-photo">
-                            <div class="book-detail">
-                                <p id="book-name">Computer operating System-Final Exam book with Paper Solution</p>
-                                <div class="deep-discription">
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-university"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            University Name, Country
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-book"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            No. of Pages
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-calendar"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Date of Upload
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-flag"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Users report about book
+                    @foreach (var item in Model)
+                    {
+                        <a href="@Url.Action("showBook","User", new { id = item.SellerNote.ID })">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="book">
+                                    <img class="img-responsive" src="@Html.Raw(@item.SellerNote.DisplayPicture)" alt="cover-photo">
+                                    <div class="book-detail">
+                                        <div class="deep-discription">
+                                            <div class="row">
+                                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                                    <i class="fa fa-university"> </i>
+                                                </div>
+                                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                                    @item.SellerNote.UniversityName , @item.Country.Name
+                                                    &nbsp;
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                                    <i class="fa fa-book"> </i>
+                                                </div>
+                                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                                    @item.SellerNote.NumberofPages, Pages
+                                                    &nbsp;
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                                    <i class="fa fa-calendar"> </i>
+                                                </div>
+                                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                                    @item.SellerNote.CreatedDate
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                                    <i class="fa fa-flag"> </i>
+                                                </div>
+                                                <div class="col-md-10 col-sm-10 col-xs-10">
+                                                    Users report about book
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6 ">
-                        <div class="book" onclick="openNav()">
-
-                            <img class="img-responsive" src="../img/home/banner.jpg" alt="cover-photo">
-                            <div class="book-detail">
-                                <p id="book-name">Computer operating System-Final Exam book with Paper Solution</p>
-                                <div class="deep-discription">
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-university"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            University Name, Country
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-book"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            No. of Pages
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-calendar"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Date of Upload
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-flag"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Users report about book
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="book" onclick="openNav()">
-
-                            <img class="img-responsive" src="../img/home/banner.jpg" alt="cover-photo">
-                            <div class="book-detail">
-                                <p id="book-name">Computer operating System-Final Exam book with Paper Solution</p>
-                                <div class="deep-discription">
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-university"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            University Name, Country
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-book"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            No. of Pages
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-calendar"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Date of Upload
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-flag"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Users report about book
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-6">
-                        <div class="book" onclick="openNav()">
-
-                            <img class="img-responsive" src="../img/home/banner.jpg" alt="cover-photo">
-                            <div class="book-detail">
-                                <p id="book-name">Computer operating System-Final Exam book with Paper Solution</p>
-                                <div class="deep-discription">
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-university"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            University Name, Country
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-book"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            No. of Pages
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-calendar"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Date of Upload
-                                        </div>
-                                        <div class="col-md-2 col-sm-2 col-xs-2">
-                                            <i class="fa fa-flag"> </i>
-                                        </div>
-                                        <div class="col-md-10 col-sm-10 col-xs-10">
-                                            Users report about book
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-
+                        </a>
+                    }
                 </div>
                 <div class="text-center" aria-label="Page navigation example">
                     <ul class="pagination">
@@ -304,10 +149,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 </section>
 <!-- Search Notes Ends -->
 <!-- Book detais in deep-->

@@ -128,7 +128,7 @@ namespace NotesMarketPlace.Controllers
 
                                 dbobj.SaveChanges();
                                 ModelState.Clear();
-                                sendEmailVerificationLink(model.EmailID, obj.ActivationCode.ToString());
+                                sendEmailVerificationLink(model.EmailID, model.FirstName, obj.ActivationCode.ToString());
 
                                 FormsAuthentication.SetAuthCookie(model.EmailID, true);
                                 return RedirectToAction("MyProfile", "User");
@@ -147,11 +147,9 @@ namespace NotesMarketPlace.Controllers
                                     }
                                 }
                             }
-
                         }
 
                         return RedirectToAction("Home", "Home");
-
                     }
 
                     else
@@ -159,9 +157,6 @@ namespace NotesMarketPlace.Controllers
                         ViewBag.UserExist = "This Email is already exists";
 
                     }
-
-
-
                 }
 
                 else
@@ -251,7 +246,7 @@ namespace NotesMarketPlace.Controllers
             return View();
         }
 
-        public void sendEmailVerificationLink(String email, string activationCode)
+        public void sendEmailVerificationLink(String email, string FirstName, string activationCode)
         {
             var verifyUrl = "/Login/VerifyAccount/" + activationCode;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
@@ -259,7 +254,7 @@ namespace NotesMarketPlace.Controllers
             var toEmail = new MailAddress(email);
             var fromemailPassword = "**********";
             string subject = "Note Marketplace - Email Verification";
-            string body ="<br>Hello <member name>,<br> <br>" + 
+            string body ="<br>Hello "+ FirstName + ",<br> <br>" + 
                 "Thank you for signing up with us. Please click on below link to verify your email address and to do login<br><br>" +
                 "<a href='" + link + "'>" + link + "</a> <br><br>" +
                 "Regards,<br> Notes MarketPlace ";

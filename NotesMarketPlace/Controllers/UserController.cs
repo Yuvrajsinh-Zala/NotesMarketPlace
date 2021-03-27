@@ -12,10 +12,12 @@ using System.Web.Mvc;
 
 namespace NotesMarketPlace.Controllers
 {
+    
     [Authorize(Roles = "Member")]
     public class UserController : Controller
     {
         private NotesMarketPlaceEntities dbobj = new NotesMarketPlaceEntities();
+
 
         // GET: User
         public ActionResult BuyerRequests()
@@ -93,9 +95,25 @@ namespace NotesMarketPlace.Controllers
             return View();
         }
 
+
         public ActionResult SearchNotes()
         {
-            return View();
+            ViewBag.Message = "Search Notes page.";
+
+            List<SellerNote> SellerNotes = dbobj.SellerNotes.ToList();
+            List<Country> Countries = dbobj.Countries.ToList();
+
+            var multiple = from c in SellerNotes
+                           join t1 in Countries on c.Country equals t1.ID
+                           where c.Status == 9
+                           select new DataRetrival { SellerNote = c, Country = t1 };
+
+            ViewBag.Count = (from c in SellerNotes
+                             join t1 in Countries on c.Country equals t1.ID
+                             where c.Status == 9
+                             select c).Count();
+
+            return View(multiple);
         }
 
         public ActionResult AddNotes()
@@ -145,11 +163,6 @@ namespace NotesMarketPlace.Controllers
             ViewBag.Country = CountryList;
 
 
-
-
-
-
-
             string name = User.Identity.Name;
             int u = (from user in dbobj.Users where user.EmailID == name select user.ID).Single();
             string book_title = model.Title;
@@ -160,18 +173,12 @@ namespace NotesMarketPlace.Controllers
             SellerNote obj = new SellerNote();
 
 
-
-
-
             if (model.uploadNote != null)
             {
                 string notepath = Server.MapPath("~/App_Data/Archive");
                 string notename = Path.GetFileName(model.uploadNote.FileName);
                 notename_fullpath = Path.Combine(notepath, notename);
                 model.uploadNote.SaveAs(notename_fullpath);
-
-
-
 
             }
             else
@@ -201,8 +208,6 @@ namespace NotesMarketPlace.Controllers
 
             try
             {
-
-
                 obj.SellerID = u;
                 obj.Title = model.Title;
                 obj.Category = model.Category;
